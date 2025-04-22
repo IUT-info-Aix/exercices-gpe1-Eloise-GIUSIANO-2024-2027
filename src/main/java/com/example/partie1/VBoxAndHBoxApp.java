@@ -44,7 +44,6 @@ public class VBoxAndHBoxApp extends Application {
         VBox.setVgrow( tblCustomers, Priority.ALWAYS );
 
 
-
         // Création de la ligne de séparation
         Separator sep = new Separator();
 
