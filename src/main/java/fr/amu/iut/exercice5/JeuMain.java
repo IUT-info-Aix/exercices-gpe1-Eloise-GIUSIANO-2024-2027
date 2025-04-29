@@ -7,13 +7,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class JeuMain extends Application {
 
     private Scene scene;
     private BorderPane root;
+    private Stage primaryStage;
+    public static List<Obstacle> obstacles = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
 
         root = new BorderPane();
 
@@ -25,6 +31,9 @@ public class JeuMain extends Application {
         //panneau du jeu
         Pane jeu = new Pane();
         jeu.setPrefSize(640, 480);
+
+        creerObstacles(jeu); // <---- Ajout de l'appel à creerObstacles
+
         jeu.getChildren().add(pacman);
         jeu.getChildren().add(fantome);
         root.setCenter(jeu);
@@ -38,6 +47,21 @@ public class JeuMain extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void creerObstacles(Pane jeu) {
+        // Création de quelques obstacles
+        Obstacle murHaut = new Obstacle(300, 200, 200, 200);
+        Obstacle murVertical = new Obstacle(100, 100, 100, 150);
+        Obstacle murBas = new Obstacle(100, 200, 100, 200);
+
+        // Ajout des obstacles à la liste statique
+        obstacles.add(murHaut);
+        obstacles.add(murVertical);
+        obstacles.add(murBas);
+
+        // Ajout des obstacles au panneau de jeu pour les afficher
+        jeu.getChildren().addAll(obstacles);
     }
 
     /**
@@ -56,15 +80,28 @@ public class JeuMain extends Application {
                 case RIGHT:
                     j1.deplacerADroite(scene.getWidth());
                     break;
+                case UP:
+                    j1.deplacerEnHaut(); // Ajout pour le déplacement vers le haut de j1
+                    break;
+                case DOWN:
+                    j1.deplacerEnBas(scene.getHeight()); // Ajout pour le déplacement vers le bas de j1
+                    break;
                 case Z:
-                    //j2...... vers le haut;
+                    j2.deplacerEnHaut();
+                    break;
+                case S:
+                    j2.deplacerEnBas(scene.getHeight());
+                    break;
+                case Q:
+                    j2.deplacerAGauche();
+                    break;
+                case D:
+                    j2.deplacerADroite(scene.getWidth());
                     break;
 
             }
             if (j1.estEnCollision(j2))
-                System.out.println("Collision....");
+                primaryStage.close();
         });
     }
-
-
 }
