@@ -72,12 +72,11 @@ public class Palette extends Application {
 
         // Création de la scene
         BorderPane borderPane = new BorderPane();
-        borderPane.setTop(vbox);       // vbox en haut
-        borderPane.setCenter(canvas);   // canvas au centre
-        borderPane.setBottom(hbox);     // hbox en bas
+        borderPane.setTop(vbox);
+        borderPane.setCenter(canvas);
+        borderPane.setBottom(hbox);
 
         Scene scene = new Scene(borderPane);
-
 
         // Ajout de la scene à la fenêtre
         primaryStage.setScene( scene );
