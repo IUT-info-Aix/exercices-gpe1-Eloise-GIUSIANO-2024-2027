@@ -69,8 +69,7 @@ class Personnage extends Group {
     }
 
     boolean estEnCollision(Personnage autrePersonnage) {
-        return getBoundsInParent().contains(autrePersonnage.getBoundsInParent())
-                || autrePersonnage.getBoundsInParent().contains(getBoundsInParent());
+        return getBoundsInParent().intersects(autrePersonnage.getBoundsInParent());
     }
 
 }

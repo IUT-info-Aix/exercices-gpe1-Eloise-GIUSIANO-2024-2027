@@ -1,11 +1,15 @@
 package fr.amu.iut.exercice5;
 
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.animation.KeyFrame;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +20,25 @@ public class JeuMain extends Application {
     private BorderPane root;
     private Stage primaryStage;
     public static List<Obstacle> obstacles = new ArrayList<>();
+    private Label lblTimer = new Label();
+    private int tempsRestant = 20; // Temps en secondes
+    private Timeline timeline;
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        root = new BorderPane();
+        // Afficher l'écran d'accueil
+        PageAccueil accueil = new PageAccueil(primaryStage);
+        primaryStage.setScene(accueil.getScene());
+        primaryStage.setTitle("Pac-Man");
+        primaryStage.show();
+
+        // Action du bouton "Jouer"
+        accueil.getBtnJouer().setOnAction(event -> lancerJeu());
+    }
+    private void lancerJeu() {
+         root = new BorderPane();
 
         //Acteurs du jeu
         Personnage pacman = new Pacman();
@@ -33,13 +50,18 @@ public class JeuMain extends Application {
 
         //panneau du jeu
         Pane jeu = new Pane();
-        jeu.setPrefSize(640, 480);
+        jeu.setPrefSize(650, 500);
 
         creerObstacles(jeu); // <---- Ajout de l'appel à creerObstacles
 
         jeu.getChildren().add(pacman);
         jeu.getChildren().add(fantome);
         root.setCenter(jeu);
+
+        lblTimer.setText("Temps restant : " + tempsRestant);
+        root.setTop(lblTimer); // Ajout du label du timer en haut de la BorderPane
+        startTimer();
+
         //on construit une scene 640 * 480 pixels
         scene = new Scene(root);
 
@@ -54,18 +76,61 @@ public class JeuMain extends Application {
 
     private void creerObstacles(Pane jeu) {
         // Création de quelques obstacles
-        Obstacle murHaut = new Obstacle(300, 200, 200, 200);
-        Obstacle murVertical = new Obstacle(100, 100, 100, 150);
-        Obstacle murBas = new Obstacle(100, 200, 100, 200);
+        Obstacle mur1 = new Obstacle(0, 200, 100, 50);
+        Obstacle mur2 = new Obstacle(50, 300, 50, 150);
+        Obstacle mur3 = new Obstacle(100, 0, 50, 150);
+        Obstacle mur4 = new Obstacle(150, 100, 150, 50);
+        Obstacle mur5 = new Obstacle(200, 200, 200, 100);
+        Obstacle mur6 = new Obstacle(150, 350, 100, 50);
+        Obstacle mur7 = new Obstacle(300, 350, 100, 50);
+        Obstacle mur8 = new Obstacle(450, 50, 100, 100);
+        Obstacle mur9 = new Obstacle(500, 200, 50, 250);
+        Obstacle mur10 = new Obstacle(550, 400, 50, 50);
 
         // Ajout des obstacles à la liste statique
-        obstacles.add(murHaut);
-        obstacles.add(murVertical);
-        obstacles.add(murBas);
+        obstacles.add(mur1);
+        obstacles.add(mur2);
+        obstacles.add(mur3);
+        obstacles.add(mur4);
+        obstacles.add(mur5);
+        obstacles.add(mur6);
+        obstacles.add(mur7);
+        obstacles.add(mur8);
+        obstacles.add(mur9);
+        obstacles.add(mur10);
 
         // Ajout des obstacles au panneau de jeu pour les afficher
         jeu.getChildren().addAll(obstacles);
     }
+
+    private void startTimer() {
+        timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), event -> {
+            tempsRestant--;
+            lblTimer.setText("Temps restant : " + tempsRestant);
+            if (tempsRestant <= 0) {
+                timeline.stop();
+                afficherResultat(false); // Fantôme a perdu
+            }
+        });
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.play();
+    }
+
+    private void stopTimer() {
+        if (timeline != null) {
+            timeline.stop();
+        }
+    }
+
+    private void afficherResultat(boolean fantomeGagne) {
+        String message = fantomeGagne ? "Le fantôme a gagné !" : "Le fantôme a perdu !";
+        Label lblResultat = new Label(message);
+        lblResultat.setStyle("-fx-font-size: 36px; -fx-font-weight: bold; -fx-text-fill: " + (fantomeGagne ? "red" : "green") + ";");
+        root.setCenter(lblResultat);
+    }
+
 
     /**
      * Permet de gérer les événements de type clavier, pression des touches
@@ -134,7 +199,10 @@ public class JeuMain extends Application {
             }
 
             if (j1.estEnCollision(j2))
+                //stopTimer();
+                //afficherResultat(true);
                 primaryStage.close();
+
         });
     }
 }
