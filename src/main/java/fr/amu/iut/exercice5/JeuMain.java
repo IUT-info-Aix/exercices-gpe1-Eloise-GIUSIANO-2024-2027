@@ -131,7 +131,6 @@ public class JeuMain extends Application {
         root.setCenter(lblResultat);
     }
 
-
     /**
      * Permet de gérer les événements de type clavier, pression des touches
      * pour le j1(up,down, right, left), pour le j2( z,q,s,d)
