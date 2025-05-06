@@ -69,17 +69,13 @@ public class IHMPendu extends Application {
     }
 
     private void initialiserJeu() {
-        System.out.println("La méthode initialiserJeu() a été appelée !");
         motADeviner = dico.getMot();
-        System.out.println("Nouveau mot à deviner : " + motADeviner);
         nbVies = 7;
-        viesLabel.setText("Vies restantes : " + nbVies); // Mise à jour du texte du Label existant
-        viesLabel.setFont(Font.font("Verdana", 16)); // Mise à jour de la police du Label existant
+        viesLabel = new Label("Vies restantes : " + nbVies);
+        viesLabel.setFont(Font.font("Verdana", 16));
 
-        String nouveauMotCache = afficherMotCache();
-        System.out.println("Mot caché généré : " + nouveauMotCache); // Ajout de cette ligne
-        motCacheLabel.setText(nouveauMotCache); // Mise à jour du texte du Label existant
-        motCacheLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 24)); // Mise à jour de la police du Label existant
+        motCacheLabel = new Label(afficherMotCache());
+        motCacheLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 24));
 
         penduImageView.setImage(new Image(imageUrl + "/0.png"));
 
