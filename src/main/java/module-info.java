@@ -6,4 +6,5 @@ open module tp.intro.javafx {
     requires java.desktop;
     exports com.example.partie1;
     exports com.example.partie2;
+
 }
