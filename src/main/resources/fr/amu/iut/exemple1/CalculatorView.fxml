@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="fr.amu.iut.exemple1.CalculatorViewController"
+      prefHeight="400.0" prefWidth="600.0"
+      spacing="10" >
+
+    <Label text="Addition" />
+    <TextField fx:id="num1Field" promptText="Nombre 1" />
+    <TextField fx:id="num2Field" promptText="Nombre 2" />
+    <Label fx:id="resultLabel" />
+</VBox>
