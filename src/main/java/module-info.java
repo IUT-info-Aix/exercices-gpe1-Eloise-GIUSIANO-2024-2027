@@ -7,7 +7,6 @@ open module tp.intro.javafx {
     exports com.example.partie1;
     exports com.example.partie2;
 
-    opens fr.amu.iut.exemple1 to javafx.fxml;
+   // opens fr.amu.iut.exemple1 to javafx.fxml;
     exports fr.amu.iut.exemple1;
-    main class fr.amu.iut.exemple1.CalculatorApp;
 }
